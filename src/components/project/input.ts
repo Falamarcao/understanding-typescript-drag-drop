@@ -1,10 +1,10 @@
-import { Component } from '../base.js';
-import { Validatable, validate } from '../../util/validation.js';
-import { projectState } from '../../state/project-state.js';
+import BC from '../base.js'; // exports default, then we can use any name to import
+import * as Validation from '../../util/validation.js';
+import { projectState as state } from '../../state/project-state.js';
 import { AutoBind } from '../../decorators/autobind.js';
 
 // ProjectInput Class
-export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
+export class ProjectInput extends BC<HTMLDivElement, HTMLFormElement> {
   titleInputElement: HTMLInputElement;
   descriptionInputElement: HTMLInputElement;
   peopleInputElement: HTMLInputElement;
@@ -36,16 +36,16 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     const enteredDescription = this.descriptionInputElement.value;
     const enteredPeople = this.peopleInputElement.value;
 
-    const titleValidatable: Validatable = {
+    const titleValidatable: Validation.Validatable = {
       value: enteredTitle,
       required: true,
     };
-    const descriptionValidatable: Validatable = {
+    const descriptionValidatable: Validation.Validatable = {
       value: enteredDescription,
       required: true,
       minLength: 5,
     };
-    const peopleValidatable: Validatable = {
+    const peopleValidatable: Validation.Validatable = {
       value: +enteredPeople,
       required: true,
       min: 1,
@@ -53,9 +53,9 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     };
 
     if (
-      !validate(titleValidatable) ||
-      !validate(descriptionValidatable) ||
-      !validate(peopleValidatable)
+      !Validation.validate(titleValidatable) ||
+      !Validation.validate(descriptionValidatable) ||
+      !Validation.validate(peopleValidatable)
     ) {
       alert('Invalid input, please try again!');
       return;
@@ -76,7 +76,7 @@ export class ProjectInput extends Component<HTMLDivElement, HTMLFormElement> {
     const userInput = this.gatherUserInput();
     if (Array.isArray(userInput)) {
       const [title, description, people] = userInput;
-      projectState.addProject(title, description, people);
+      state.addProject(title, description, people);
       this.clearInputs();
     }
   }

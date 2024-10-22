@@ -1,4 +1,4 @@
-import { Component } from '../base.js';
+import Cmp from '../base.js'; // exports default, then we can use any name to import
 import { DragTarget } from '../../models/drag-drop.js';
 import { Project, ProjectStatus } from '../../models/project.js';
 import { AutoBind } from '../../decorators/autobind.js';
@@ -7,7 +7,7 @@ import { ProjectItem } from './item.js';
 
 // ProjectList Class
 export class ProjectList
-  extends Component<HTMLDivElement, HTMLElement>
+  extends Cmp<HTMLDivElement, HTMLElement>
   implements DragTarget
 {
   assignedProjects: Project[];
