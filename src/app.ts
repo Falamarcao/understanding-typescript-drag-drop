@@ -54,7 +54,6 @@ class ProjectState extends State<Project> {
 
 const projectState = ProjectState.getInstance();
 
-
 // Validation
 interface Validatable {
   value: string | number;
@@ -144,6 +143,10 @@ abstract class Component<T extends HTMLElement, U extends HTMLElement> {
 class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
   private project: Project;
 
+  get person() {
+    return `${this.project.people} person${this.project.people > 1 ? 's' : ''}`;
+  }
+
   constructor(hostId: string, project: Project) {
     super('single-project', hostId, 'beforeend', project.id);
     this.project = project;
@@ -152,11 +155,11 @@ class ProjectItem extends Component<HTMLUListElement, HTMLLIElement> {
     this.renderContent();
   }
 
-  configure(): void { }
-  
+  configure(): void {}
+
   renderContent(): void {
     this.element.querySelector('h2')!.textContent = this.project.title;
-    this.element.querySelector('h3')!.textContent = this.project.people.toString();
+    this.element.querySelector('h3')!.textContent = this.person + ' assigned';
     this.element.querySelector('p')!.textContent = this.project.description;
   }
 }
