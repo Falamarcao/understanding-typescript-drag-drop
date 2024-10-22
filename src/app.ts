@@ -1,7 +1,7 @@
 // Project Type
 enum ProjectStatus {
-  Active,
-  Finished,
+  Active = 'active',
+  Finished = 'finished',
 }
 
 class Project {
@@ -108,7 +108,7 @@ class ProjectList {
   element: HTMLElement;
   assignedProjects: Project[];
 
-  constructor(private type: 'active' | 'finished') {
+  constructor(private type: ProjectStatus) {
     this.templateElement = document.getElementById(
       'project-list'
     )! as HTMLTemplateElement;
@@ -123,7 +123,9 @@ class ProjectList {
     this.element.id = `${this.type}-projects`;
 
     projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects;
+      this.assignedProjects = projects.filter(
+        (project) => project.status === this.type
+      );
       this.renderProjects();
     });
 
@@ -136,9 +138,11 @@ class ProjectList {
       `${this.type}-projects-list`
     )! as HTMLUListElement;
 
-    for (const item of this.assignedProjects) {
+    listElement.innerHTML = ''; // reset list element
+
+    for (const project of this.assignedProjects) {
       const listItem = document.createElement('li');
-      listItem.textContent = item.title;
+      listItem.textContent = project.title;
       listElement.appendChild(listItem);
     }
   }
@@ -147,7 +151,7 @@ class ProjectList {
     const listId = `${this.type}-projects-list`;
     this.element.querySelector('ul')!.id = listId;
     this.element.querySelector('h2')!.textContent =
-      this.type.toLocaleUpperCase() + ' PROJECTS';
+      this.type.toUpperCase() + ' PROJECTS';
   }
 
   private attach() {
@@ -252,5 +256,5 @@ class ProjectInput {
 }
 
 const projectInput = new ProjectInput();
-const activeProjectList = new ProjectList('active');
-const finishedProjectList = new ProjectList('finished');
+const activeProjectList = new ProjectList(ProjectStatus.Active);
+const finishedProjectList = new ProjectList(ProjectStatus.Finished);
