@@ -109,7 +109,7 @@ class ProjectInput {
       !validate(descriptionValidatable) ||
       !validate(peopleValidatable)
     ) {
-      alert('Invalid input, pleae try again!');
+      alert('Invalid input, please try again!');
       return;
     } else {
       return [enteredTitle, enteredDescription, +enteredPeople];
