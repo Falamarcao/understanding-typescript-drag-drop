@@ -6,8 +6,8 @@ interface Draggable {
 
 interface DragTarget {
   dragOverHandler(event: DragEvent): void;
-  dragHandler(event: DragEvent): void;
   dragLeaveHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
 }
 
 // Project Type
@@ -193,7 +193,10 @@ class ProjectItem
 }
 
 // ProjectList Class
-class ProjectList extends Component<HTMLDivElement, HTMLElement> {
+class ProjectList
+  extends Component<HTMLDivElement, HTMLElement>
+  implements DragTarget
+{
   assignedProjects: Project[];
 
   constructor(private type: ProjectStatus) {
@@ -202,6 +205,34 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
 
     this.configure();
     this.renderContent();
+  }
+
+  @AutoBind
+  dragOverHandler(_event: DragEvent): void {
+    const listElement = this.element.querySelector('ul')! as HTMLUListElement;
+    listElement.classList.add('droppable');
+  }
+
+  @AutoBind
+  dragLeaveHandler(_event: DragEvent): void {
+    const listElement = this.element.querySelector('ul')! as HTMLUListElement;
+    listElement.classList.remove('droppable');
+  }
+
+  @AutoBind
+  dropHandler(_event: DragEvent): void {}
+
+  configure() {
+    this.element.addEventListener('dragover', this.dragOverHandler);
+    this.element.addEventListener('dragleave', this.dragLeaveHandler);
+    this.element.addEventListener('drop', this.dropHandler);
+
+    projectState.addListener((projects: Project[]) => {
+      this.assignedProjects = projects.filter(
+        (project) => project.status === this.type
+      );
+      this.renderProjects();
+    });
   }
 
   private renderProjects() {
@@ -214,15 +245,6 @@ class ProjectList extends Component<HTMLDivElement, HTMLElement> {
     for (const project of this.assignedProjects) {
       new ProjectItem(this.element.querySelector('ul')!.id, project);
     }
-  }
-
-  configure() {
-    projectState.addListener((projects: Project[]) => {
-      this.assignedProjects = projects.filter(
-        (project) => project.status === this.type
-      );
-      this.renderProjects();
-    });
   }
 
   renderContent() {
