@@ -1,9 +1,9 @@
-import Cmp from '../base.js'; // exports default, then we can use any name to import
-import { DragTarget } from '../../models/drag-drop.js';
-import { Project, ProjectStatus } from '../../models/project.js';
-import { AutoBind } from '../../decorators/autobind.js';
-import { projectState } from '../../state/project-state.js';
-import { ProjectItem } from './item.js';
+import Cmp from '../base'; // exports default, then we can use any name to import
+import { DragTarget } from '../../models/drag-drop';
+import { Project, ProjectStatus } from '../../models/project';
+import { AutoBind } from '../../decorators/autobind';
+import { projectState } from '../../state/project-state';
+import { ProjectItem } from './item';
 
 // ProjectList Class
 export class ProjectList

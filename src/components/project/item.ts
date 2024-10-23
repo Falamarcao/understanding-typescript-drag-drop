@@ -1,7 +1,7 @@
-import BaseComponent from '../base.js'; // exports default, then we can use any name to import
-import { Draggable } from '../../models/drag-drop.js';
-import { Project } from '../../models/project.js';
-import { AutoBind } from '../../decorators/autobind.js';
+import BaseComponent from '../base'; // exports default, then we can use any name to import
+import { Draggable } from '../../models/drag-drop';
+import { Project } from '../../models/project';
+import { AutoBind } from '../../decorators/autobind';
 
 // ProjectItem Class
 export class ProjectItem

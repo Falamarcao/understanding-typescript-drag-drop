@@ -1,7 +1,7 @@
-import BC from '../base.js'; // exports default, then we can use any name to import
-import * as Validation from '../../util/validation.js';
-import { projectState as state } from '../../state/project-state.js';
-import { AutoBind } from '../../decorators/autobind.js';
+import BC from '../base'; // exports default, then we can use any name to import
+import * as Validation from '../../util/validation';
+import { projectState as state } from '../../state/project-state';
+import { AutoBind } from '../../decorators/autobind';
 
 // ProjectInput Class
 export class ProjectInput extends BC<HTMLDivElement, HTMLFormElement> {
